@@ -4,6 +4,7 @@
  * with numbers in exponential notation replaced by numbers in fixed-point
  * notation.
  *
+ * @private
  * @copyright Copyright 2017-2021 Kevin Locke <kevin@kevinlocke.name>
  * @license MIT
  * @module json-replace-exponentials/bin/json-replace-exponentials
