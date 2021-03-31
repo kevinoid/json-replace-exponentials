@@ -67,6 +67,31 @@ npm install json-replace-exponentials
 ```
 
 
+## Recipes
+
+### Replace large exponents
+
+As noted above, by default, exponents larger than 1,000 or -1,000 cause
+`RangeError` to be thrown.  To replace with (non-standard) `Infinity` and
+`Underflow`, and others with the default replacement:
+
+```js
+const jsonReplaceExponentials = require('json-replace-exponentials');
+const { exponentialToFixed } = jsonReplaceExponentials;
+
+function replacer(exponential) {
+  const match = /[eE]([+-]?)[0-9]{4,}$/.exec(exponential);
+  if (match) {
+    return match[1] === '-' ? 'Underflow' : 'Infinity';
+  }
+
+  return exponentialToFixed(exponential);
+}
+
+jsonReplaceExponentials(json, replacer);
+```
+
+
 ## API Docs
 
 To use this module as a library, see the [API
