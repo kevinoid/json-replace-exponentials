@@ -118,7 +118,7 @@ function exponentialToFixedReplacer(
 /** Replaces numbers in exponential notation in a given JSON string.
  *
  * @param {string} json JSON in which to replace numbers.
- * @param {function(string):string=} replacer Optional replacer function
+ * @param {(function(string):string)=} replacer Optional replacer function
  * called with a number in exponential format returning a string which will
  * replace the number in the return value.
  * @returns {string} Input JSON with numbers in exponential format replaced
