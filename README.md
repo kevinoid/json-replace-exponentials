@@ -77,7 +77,6 @@ As noted above, by default, exponents larger than 1,000 or -1,000 cause
 
 ```js
 const jsonReplaceExponentials = require('json-replace-exponentials');
-const { exponentialToFixed } = jsonReplaceExponentials;
 
 function replacer(exponential) {
   const match = /[eE]([+-]?)[0-9]{4,}$/.exec(exponential);
@@ -85,7 +84,7 @@ function replacer(exponential) {
     return match[1] === '-' ? 'Underflow' : 'Infinity';
   }
 
-  return exponentialToFixed(exponential);
+  return jsonReplaceExponentials(exponential);
 }
 
 jsonReplaceExponentials(json, replacer);
