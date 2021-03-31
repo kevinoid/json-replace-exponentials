@@ -1,6 +1,6 @@
 {
   "name": "json-replace-exponentials",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Replace numbers in exponential notation by numbers in fixed-point notation (or anything else) in a string of JSON.",
   "keywords": [
     "autorest",
