@@ -84,6 +84,23 @@ function exponentialPartsToFixed(signPart, intPart, fracPart, exponent) {
   /* eslint-enable prefer-template */
 }
 
+/** Replacer function for jsonWithNumberExpRE which replaces the number in
+ * exponential notation with one in fixed-point notation if the exponent
+ * does not exceed +/-1000.
+ *
+ * @private
+ * @param {string} match Substring which matched jsonWithNumberExpRE.
+ * @param {string} prefix Substring before the number.
+ * @param {string} numExp Number in exponential notation.
+ * @param {string} signPart Sign part of number. (i.e. '-' or '')
+ * @param {string} intPart Integer part of number. (i.e. part before decimal)
+ * @param {string|undefined} fracPart Fractional part of number, if any.
+ * (i.e. part after decimal).
+ * @param {string} expPart Exponential part of number. (i.e. part after "e")
+ * @returns {string} Prefix followed by numExp in fixed-point notation.
+ * @throws {RangeError} If expPart is larger than 1,000 or smaller than
+ * -1,000.
+ */
 function exponentialToFixedReplacer(
   match, prefix, numExp, signPart, intPart, fracPart, expPart,
 ) {
@@ -98,6 +115,20 @@ function exponentialToFixedReplacer(
     + exponentialPartsToFixed(signPart, intPart, fracPart || '', exp);
 }
 
+/** Replaces numbers in exponential notation in a given JSON string.
+ *
+ * @param {string} json JSON in which to replace numbers.
+ * @param {function(string):string=} replacer Optional replacer function
+ * called with a number in exponential format returning a string which will
+ * replace the number in the return value.
+ * @returns {string} Input JSON with numbers in exponential format replaced
+ * by fixed-point format, or by replacer, if provided.
+ * @throws {TypeError} If json is not a string.
+ * @throws {TypeError} If replacer is not a function.
+ * @throws {RangeError} If replacer is undefined and a number in exponential
+ * format has an exponent which is larger than 1,000 or smaller than -1,000.
+ * (To mitigate risks from unexpected large size increase in output.)
+ */
 module.exports =
 function jsonReplaceExponentials(json, replacer) {
   if (typeof json !== 'string') {
