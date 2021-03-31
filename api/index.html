@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Home</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Home</h1>
+
+    
+
+
+
+    
+
+
+    <h3> </h3>
+
+
+
+
+
+
+
+
+
+
+    
+
+
+
+
+    <section>
+        <article><h1>json-replace-exponentials</h1>
+<p><a href="https://github.com/kevinoid/json-replace-exponentials/actions?query=branch%3Amain"><img src="https://img.shields.io/github/workflow/status/kevinoid/json-replace-exponentials/Node.js%20CI/main.svg?style=flat&amp;label=build" alt="Build Status"></a>
+<a href="https://codecov.io/github/kevinoid/json-replace-exponentials?branch=main"><img src="https://img.shields.io/codecov/c/github/kevinoid/json-replace-exponentials.svg?style=flat" alt="Coverage"></a>
+<a href="https://david-dm.org/kevinoid/json-replace-exponentials"><img src="https://img.shields.io/david/kevinoid/json-replace-exponentials.svg?style=flat" alt="Dependency Status"></a>
+<a href="https://www.npmjs.com/package/json-replace-exponentials"><img src="https://img.shields.io/node/v/json-replace-exponentials.svg?style=flat" alt="Supported Node Version"></a>
+<a href="https://www.npmjs.com/package/json-replace-exponentials"><img src="https://img.shields.io/npm/v/json-replace-exponentials.svg?style=flat" alt="Version on NPM"></a></p>
+<p>This module provides a function which takes a JSON string and replaces all
+numbers in exponential notation.  By default, numbers in exponential notation
+are replaced by numbers in fixed-point notation.  If an optional replacer
+function is provided, its return value is used instead.</p>
+<p>The primary motivation for this module is to produce JSON for programs which
+handle exponential notation incorrectly (e.g.
+<a href="https://github.com/Azure/autorest/issues/3006">Azure/autorest#3006</a>).</p>
+<h2>Introductory Example</h2>
+<p>Using the CLI:</p>
+<pre class="prettyprint source lang-sh"><code>json-replace-exponentials &lt;input-exponentials.json >output-fixed.json
+</code></pre>
+<p>Using the API:</p>
+<pre class="prettyprint source lang-js"><code>const { readFile, writeFile } = require('fs').promises;
+const jsonReplaceExponentials = require('json-replace-exponentials');
+
+readFile('input-exponentials.json', { encoding: 'utf8' })
+  .then((json) => writeFile(
+    'output-fixed.json',
+    JSON.stringify(jsonReplaceExponentials(json), undefined, 2),
+  );
+</code></pre>
+<h2>Features</h2>
+<ul>
+<li>Preserves white-space and formatting of input JSON.</li>
+<li>Preserves full precision of replaced numbers, even for numbers which can
+not be exactly represented by the JavaScript <code>number</code> type.</li>
+<li>The default replacer throws <code>RangeError</code> for numbers where the exponential
+is larger than 1,000 or smaller than -1,000 to mitigate unexpected result
+size increases for large fixed-point representations.
+<strong>Warning:</strong> Consider this risk when using a custom replacer.</li>
+</ul>
+<h2>Non-Features</h2>
+<ul>
+<li>Does not parse or validate input JSON.  If input is not valid JSON, the
+behavior of <code>json-replace-exponentials</code> is undefined.</li>
+</ul>
+<h2>Installation</h2>
+<p><a href="https://www.npmjs.com/package/json-replace-exponentials">This package</a> can be
+installed using <a href="https://www.npmjs.com/">npm</a>, either globally or locally, by
+running:</p>
+<pre class="prettyprint source lang-sh"><code>npm install json-replace-exponentials
+</code></pre>
+<h2>Recipes</h2>
+<h3>Replace large exponents</h3>
+<p>As noted above, by default, exponents larger than 1,000 or -1,000 cause
+<code>RangeError</code> to be thrown.  To replace with (non-standard) <code>Infinity</code> and
+<code>Underflow</code>, and others with the default replacement:</p>
+<pre class="prettyprint source lang-js"><code>const jsonReplaceExponentials = require('json-replace-exponentials');
+
+function replacer(exponential) {
+  const match = /[eE]([+-]?)[0-9]{4,}$/.exec(exponential);
+  if (match) {
+    return match[1] === '-' ? 'Underflow' : 'Infinity';
+  }
+
+  return jsonReplaceExponentials(exponential);
+}
+
+jsonReplaceExponentials(json, replacer);
+</code></pre>
+<h2>API Docs</h2>
+<p>To use this module as a library, see the <a href="https://kevinoid.github.io/json-replace-exponentials/api">API
+Documentation</a>.</p>
+<h2>Contributing</h2>
+<p>Contributions are appreciated.  Contributors agree to abide by the <a href="https://www.contributor-covenant.org/version/1/4/code-of-conduct.html">Contributor
+Covenant Code of
+Conduct</a>.
+If this is your first time contributing to a Free and Open Source Software
+project, consider reading <a href="https://opensource.guide/how-to-contribute/">How to Contribute to Open
+Source</a>
+in the Open Source Guides.</p>
+<p>If the desired change is large, complex, backwards-incompatible, can have
+significantly differing implementations, or may not be in scope for this
+project, opening an issue before writing the code can avoid frustration and
+save a lot of time and effort.</p>
+<h2>License</h2>
+<p>This project is available under the terms of the <a href="LICENSE.txt">MIT License</a>.
+See the <a href="https://tldrlegal.com/license/mit-license">summary at TLDRLegal</a>.</p></article>
+    </section>
+
+
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-json-replace-exponentials.html">json-replace-exponentials</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.6</a> on Wed Mar 31 2021 15:57:35 GMT-0600 (Mountain Daylight Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
