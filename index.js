@@ -13,6 +13,13 @@
  */
 const numberExpPattern = '(-?)([0-9]+)(?:\\.([0-9]+))?[eE]([+-]?[0-9]+)';
 
+/** RegExp for a JSON number in exponential notation (i.e. with mandatory
+ * exp production from https://tools.ietf.org/html/rfc7158#section-6 ).
+ *
+ * @private
+ */
+const numberExp = new RegExp(`^${numberExpPattern}$`);
+
 /** Pattern for a JSON string
  * https://tools.ietf.org/html/rfc7158#section-7
  *
@@ -146,4 +153,26 @@ function jsonReplaceExponentials(json, replacer) {
 
   jsonWithNumberExpRE.lastIndex = 0;
   return json.replace(jsonWithNumberExpRE, wrapReplacer);
+};
+
+/** Converts a number in exponential format to fixed-point format.
+ *
+ * @param {string} exponentialNumber A number in exponential format.
+ * @returns {string} exponentialNumber converted to fixed-point format.
+ * @throws {RangeError} If exponentialNumber is not in exponential format.
+ */
+module.exports.exponentialToFixed =
+function exponentialToFixed(exponentialNumber) {
+  const match = numberExp.exec(exponentialNumber);
+  if (!match) {
+    throw new RangeError(`${exponentialNumber} is not in exponential format`);
+  }
+
+  const [, signPart, intPart, fracPart, expPart] = match;
+  return exponentialPartsToFixed(
+    signPart,
+    intPart,
+    fracPart || '',
+    Number(expPart),
+  );
 };

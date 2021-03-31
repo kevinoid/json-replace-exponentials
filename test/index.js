@@ -9,6 +9,8 @@ const assert = require('assert');
 
 const jsonReplaceExponentials = require('..');
 
+const { exponentialToFixed } = jsonReplaceExponentials;
+
 function neverCalled() {
   assert.fail('Should not be called');
 }
@@ -189,6 +191,44 @@ describe('jsonReplaceExponentials', () => {
     assert.strictEqual(
       jsonReplaceExponentials(bigExp, testReplacer),
       bigReplacement,
+    );
+  });
+});
+
+describe('exponentialToFixed', () => {
+  it('throws RangeError for non-string arg', () => {
+    assert.throws(
+      () => exponentialToFixed(true),
+      RangeError,
+    );
+  });
+
+  it('throws RangeError for non-exponential arg', () => {
+    assert.throws(
+      () => exponentialToFixed('1'),
+      RangeError,
+    );
+  });
+
+  // I'm not opposed to relaxing this if there is a use-case
+  it('throws RangeError for surrounding whitespace', () => {
+    assert.throws(
+      () => exponentialToFixed(' 1e1 '),
+      RangeError,
+    );
+  });
+
+  it('throws RangeError for decimal in exponent', () => {
+    assert.throws(
+      () => exponentialToFixed('1e1.1'),
+      RangeError,
+    );
+  });
+
+  it('converts exponential to fixed-point format', () => {
+    assert.strictEqual(
+      exponentialToFixed('1e1'),
+      '10',
     );
   });
 });
