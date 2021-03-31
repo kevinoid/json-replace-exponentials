@@ -1,16 +1,118 @@
 /**
  * @copyright Copyright 2016-2020 Kevin Locke <kevin@kevinlocke.name>
  * @license MIT
- * @module modulename
+ * @module json-replace-exponentials
  */
 
 'use strict';
 
-exports.func =
-async function func(options) {
-  if (options !== undefined && typeof options !== 'object') {
-    throw new TypeError('options must be an object');
+/** Pattern for a JSON number in exponential notation (i.e. with mandatory
+ * exp production from https://tools.ietf.org/html/rfc7158#section-6 ).
+ *
+ * @private
+ */
+const numberExpPattern = '(-?)([0-9]+)(?:\\.([0-9]+))?[eE]([+-]?[0-9]+)';
+
+/** Pattern for a JSON string
+ * https://tools.ietf.org/html/rfc7158#section-7
+ *
+ * @private
+ */
+const stringPattern =
+  '"(?:[^\x00-\x1F\\\\"]|\\\\(?:["\\\\/bfnrt]|u[0-9a-fA-F]{4}))*"';
+
+/** RegExp for JSON number in exponential notation occurring after after any
+ * number of quoted strings and non-quote characters (i.e. a JSON number in
+ * exponential notation occurring outside of a string).
+ *
+ * @private
+ */
+const jsonWithNumberExpRE =
+  new RegExp(`((?:${stringPattern}|[^"])*?)(${numberExpPattern})`, 'gy');
+
+/** Converts the parts of a number in exponential notation to fixed-point
+ * notation.
+ *
+ * @private
+ * @param {string} signPart Sign part of number. (i.e. '-' or '')
+ * @param {string} intPart Integer part of number. (i.e. part before decimal)
+ * @param {string} fracPart Fractional part of number, if any. (i.e. part
+ * after decimal).
+ * @param {number} exponent Exponential of number. (i.e. part after "e")
+ * @returns {string} Number in fixed-point notation.
+ */
+function exponentialPartsToFixed(signPart, intPart, fracPart, exponent) {
+  // These are easier to express without templates
+  /* eslint-disable prefer-template */
+
+  if (exponent >= 0) {
+    // Move decimal exponent digits to the right, adding 0s as necessary
+
+    let unsigned;
+    if (fracPart.length <= exponent) {
+      unsigned = intPart
+        + fracPart
+        + '0'.repeat(exponent - fracPart.length);
+    } else {
+      unsigned = intPart
+        + fracPart.slice(0, exponent)
+        + '.'
+        + fracPart.slice(exponent);
+    }
+
+    // Remove unnecessary leading zeros
+    return signPart + unsigned.replace(/^0+(?=[0-9])/, '');
   }
 
-  // Do stuff
+  // Move decimal -exponent digits to the left, adding 0s as necessary
+  exponent = -exponent;
+
+  if (intPart.length > exponent) {
+    return signPart
+      + intPart.slice(0, exponent)
+      + '.'
+      + intPart.slice(exponent)
+      + fracPart;
+  }
+
+  return signPart
+    + '0.'
+    + '0'.repeat(exponent - intPart.length)
+    + intPart
+    + fracPart;
+
+  /* eslint-enable prefer-template */
+}
+
+function exponentialToFixedReplacer(
+  match, prefix, numExp, signPart, intPart, fracPart, expPart,
+) {
+  // Limit exponent to mitigate issues due to large fixed-point representations
+  // (e.g.  eating all memory for 1e99999999999)
+  const exp = Number(expPart);
+  if (exp > 1000 || exp < -1000) {
+    throw new RangeError(`${numExp} exponent exceeds maximum`);
+  }
+
+  return prefix
+    + exponentialPartsToFixed(signPart, intPart, fracPart || '', exp);
+}
+
+module.exports =
+function jsonReplaceExponentials(json, replacer) {
+  if (typeof json !== 'string') {
+    throw new TypeError('json must be a string');
+  }
+
+  let wrapReplacer;
+  if (replacer === undefined) {
+    wrapReplacer = exponentialToFixedReplacer;
+  } else if (typeof replacer === 'function') {
+    wrapReplacer = (match, prefix, numExp) => prefix + replacer(numExp);
+  } else {
+    throw new TypeError('replacer must be a function');
+  }
+
+  jsonWithNumberExpRE.lastIndex = 0;
+  return json.replace(jsonWithNumberExpRE, wrapReplacer);
 };

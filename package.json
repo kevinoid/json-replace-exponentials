@@ -1,18 +1,18 @@
 {
-  "name": "@kevinoid/project-template",
+  "name": "json-replace-exponentials",
   "version": "0.0.1",
-  "description": "A Node.js/npm project template with codecov, coveralls, ESLint, conventional-changelog, nyc, JSDoc, and mocha.",
+  "description": "Replace numbers in exponential notation by numbers in fixed-point notation (or anything else) in a string of JSON.",
   "keywords": [
-    "project-template",
-    "template"
+    "autorest",
+    "json"
   ],
   "license": "MIT",
-  "homepage": "https://github.com/kevinoid/node-project-template",
-  "bugs": "https://github.com/kevinoid/node-project-template/issues",
+  "homepage": "https://github.com/kevinoid/json-replace-exponentials",
+  "bugs": "https://github.com/kevinoid/json-replace-exponentials/issues",
   "author": "Kevin Locke <kevin@kevinlocke.name>",
   "repository": {
     "type": "git",
-    "url": "https://github.com/kevinoid/node-project-template.git"
+    "url": "https://github.com/kevinoid/json-replace-exponentials.git"
   },
   "type": "commonjs",
   "files": [
@@ -26,7 +26,7 @@
     ".": "./index.js"
   },
   "bin": {
-    "project-template": "bin/cmd.js"
+    "json-replace-exponentials": "bin/json-replace-exponentials.js"
   },
   "//": "All scripts should run in POSIX sh and Windows cmd.exe",
   "scripts": {
@@ -41,7 +41,6 @@
     "postpublish": "git -C doc push && git push --follow-tags origin main gh-pages && echo Remember to update GitHub Releases from CHANGELOG.md",
     "postversion": "rimraf doc && git clone -b gh-pages -l -q . doc && npm run doc && git -C doc add . && git -C doc commit -n -m \"Docs for v$npm_package_version\"",
     "preversion": "npm run test-cov && nyc check-coverage --statements 95 && depcheck --ignore-dirs doc && david && git-branch-is main && hub-ci-status -vv --wait",
-    "start": "supervisor --quiet --no-restart-on exit --extensions js,json --ignore test --poll-interval 2000 server.js",
     "test": "npm run lint && npm run test-unit",
     "test-cov": "npm run lint && npm run test-unit-cov",
     "test-unit": "node --throw-deprecation --unhandled-rejections=strict node_modules/mocha/bin/mocha --parallel --recursive test",
@@ -50,9 +49,6 @@
     "upload-cov": "codecov < ./coverage/lcov.info && coveralls < ./coverage/lcov.info",
     "version": "npm run changelog && echo && echo === Please edit CHANGELOG.md as desired, then exit === && echo && \"${npm_config_shell:-${SHELL:-bash}}\" && git commit -m \"Update CHANGELOG.md for $npm_package_version\" CHANGELOG.md",
     "version-deps": "npm install conventional-changelog-cli david depcheck git-branch-is hub-ci-status"
-  },
-  "dependencies": {
-    "yargs": "^16.0.3"
   },
   "devDependencies": {
     "@kevinoid/eslint-config": "^16.0.0",
