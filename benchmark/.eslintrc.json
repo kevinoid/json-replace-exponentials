@@ -1,0 +1,14 @@
+// ESLint configuration for benchmark subproject
+{
+  "extends": "../.eslintrc.json",
+
+  "rules": {
+    // Disable import resolution checking since installing benchmark
+    // dependencies for linting is wasteful, particularly on CI.
+    "import/no-unresolved": "off",
+
+    // Disable import resolution checking since installing benchmark
+    // dependencies for linting is wasteful, particularly on CI.
+    "node/no-missing-require": "off"
+  }
+}
