@@ -89,6 +89,7 @@
   },
   "nyc": {
     "exclude": [
+      "benchmark",
       "test"
     ]
   }
