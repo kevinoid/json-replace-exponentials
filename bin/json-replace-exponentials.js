@@ -65,13 +65,13 @@ function jsonReplaceExponentialsCmd(args, { stdin, stdout, stderr }, callback) {
     case '-?':
     case '--help':
       stdout.write(usage);
-      process.nextTick(callback, 0);
+      queueMicrotask(() => callback(0));
       return;
 
     case '-V':
     case '--version':
       stdout.write(`${packageJson.name} ${packageJson.version}\n`);
-      process.nextTick(callback, 0);
+      queueMicrotask(() => callback(0));
       return;
 
     default:
@@ -80,7 +80,7 @@ function jsonReplaceExponentialsCmd(args, { stdin, stdout, stderr }, callback) {
 
   if (args.length > 2) {
     stderr.write(`Error: Unexpected arguments.\n${usage}`);
-    process.nextTick(callback, 1);
+    queueMicrotask(() => callback(1));
     return;
   }
 

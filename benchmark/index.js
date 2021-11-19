@@ -72,7 +72,7 @@ function main(args, options, exit) {
   const usage = `Usage: ${args[1]} <JSON file>\n`;
   if (args.length !== 3) {
     options.stderr.write(`Error: Expected exactly 1 argument.\n${usage}`);
-    process.nextTick(exit, 1);
+    queueMicrotask(() => exit(1));
     return;
   }
 
