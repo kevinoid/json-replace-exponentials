@@ -102,7 +102,13 @@ function exponentialPartsToFixed(signPart, intPart, fracPart, exponent) {
  * -1,000.
  */
 function exponentialToFixedReplacer(
-  match, prefix, numExp, signPart, intPart, fracPart, expPart,
+  match,
+  prefix,
+  numExp,
+  signPart,
+  intPart,
+  fracPart,
+  expPart,
 ) {
   // Limit exponent to mitigate issues due to large fixed-point representations
   // (e.g.  eating all memory for 1e99999999999)
