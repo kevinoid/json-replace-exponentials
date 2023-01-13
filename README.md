@@ -3,7 +3,7 @@ json-replace-exponentials
 
 [![Build Status](https://img.shields.io/github/actions/workflow/status/kevinoid/json-replace-exponentials/node.js.yml?branch=main&style=flat&label=build)](https://github.com/kevinoid/json-replace-exponentials/actions?query=branch%3Amain)
 [![Coverage](https://img.shields.io/codecov/c/github/kevinoid/json-replace-exponentials/main.svg?style=flat)](https://app.codecov.io/gh/kevinoid/json-replace-exponentials/branch/main)
-[![Dependency Status](https://img.shields.io/david/kevinoid/json-replace-exponentials.svg?style=flat)](https://david-dm.org/kevinoid/json-replace-exponentials)
+[![Dependency Status](https://img.shields.io/librariesio/release/npm/json-replace-exponentials.svg?style=flat)](https://libraries.io/npm/json-replace-exponentials)
 [![Supported Node Version](https://img.shields.io/node/v/json-replace-exponentials.svg?style=flat)](https://www.npmjs.com/package/json-replace-exponentials)
 [![Version on NPM](https://img.shields.io/npm/v/json-replace-exponentials.svg?style=flat)](https://www.npmjs.com/package/json-replace-exponentials)
 
