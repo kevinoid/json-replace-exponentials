@@ -151,5 +151,5 @@ function jsonReplaceExponentials(json, replacer) {
   }
 
   jsonWithNumberExpRE.lastIndex = 0;
-  return json.replace(jsonWithNumberExpRE, wrapReplacer);
+  return json.replaceAll(jsonWithNumberExpRE, wrapReplacer);
 };
