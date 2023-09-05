@@ -12,7 +12,8 @@ const { promisify } = require('util');
 // Note: fs.promises.readFile only accepts FileHandle, not number FD
 const readFileP = promisify(readFile);
 
-// eslint-disable-next-line n/no-unpublished-require
+// https://github.com/import-js/eslint-plugin-import/issues/2844
+// eslint-disable-next-line import/extensions,n/no-unpublished-require
 global.jsonReplaceExponentials = require('..');
 global.toJsonNoExponential = require('./to-json-no-exponential.js');
 

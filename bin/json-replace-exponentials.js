@@ -13,6 +13,8 @@
 'use strict';
 
 const packageJson = require('../package.json');
+// https://github.com/import-js/eslint-plugin-import/issues/2844
+// eslint-disable-next-line import/extensions
 const jsonReplaceExponentials = require('..');
 
 /** Options for command entry points.

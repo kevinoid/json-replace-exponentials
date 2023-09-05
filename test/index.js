@@ -7,6 +7,8 @@
 
 const assert = require('assert');
 
+// https://github.com/import-js/eslint-plugin-import/issues/2844
+// eslint-disable-next-line import/extensions
 const jsonReplaceExponentials = require('..');
 
 function neverCalled() {
