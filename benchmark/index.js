@@ -5,9 +5,10 @@
 
 'use strict';
 
+const { readFile } = require('node:fs');
+const { promisify } = require('node:util');
+
 const Benchmark = require('benchmark');
-const { readFile } = require('fs');
-const { promisify } = require('util');
 
 // Note: fs.promises.readFile only accepts FileHandle, not number FD
 const readFileP = promisify(readFile);

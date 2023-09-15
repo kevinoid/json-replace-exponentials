@@ -5,8 +5,8 @@
 
 'use strict';
 
-const assert = require('assert');
-const { PassThrough } = require('stream');
+const assert = require('node:assert');
+const { PassThrough } = require('node:stream');
 
 const jreBin = require('../../bin/json-replace-exponentials.js');
 const packageJson = require('../../package.json');

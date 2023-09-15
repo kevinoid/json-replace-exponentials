@@ -10,7 +10,8 @@
 
 'use strict';
 
-const assert = require('assert');
+const assert = require('node:assert');
+
 const jsonStringifyRaw = require('json-stringify-raw');
 
 function getFixed(value) {
