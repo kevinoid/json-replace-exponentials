@@ -19,7 +19,7 @@ const numberExpPattern = '(-?)([0-9]+)(?:\\.([0-9]+))?[eE]([+-]?[0-9]+)';
  * @private
  */
 const stringPattern =
-  '"(?:[^\x00-\x1F\\\\"]|\\\\(?:["\\\\/bfnrt]|u[0-9a-fA-F]{4}))*"';
+  '"(?:[^\\x00-\\x1F\\\\"]|\\\\(?:["\\\\/bfnrt]|u[0-9a-fA-F]{4}))*"';
 
 /** RegExp for JSON number in exponential notation occurring after after any
  * number of quoted strings and non-quote characters (i.e. a JSON number in
