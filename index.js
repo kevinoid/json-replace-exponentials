@@ -29,7 +29,7 @@ const stringPattern =
  */
 const jsonWithNumberExpRE =
   // eslint-disable-next-line regexp/no-control-character
-  new RegExp(`((?:${stringPattern}|[^"])*?)(${numberExpPattern})`, 'gy');
+  new RegExp(`((?:${stringPattern}|[^"0-9])*?)(${numberExpPattern})`, 'gy');
 
 /** Converts the parts of a number in exponential notation to fixed-point
  * notation.
