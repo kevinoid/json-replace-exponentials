@@ -15,8 +15,8 @@ const readFileP = promisify(readFile);
 
 // https://github.com/import-js/eslint-plugin-import/issues/2844
 // eslint-disable-next-line import/extensions,n/no-unpublished-require
-global.jsonReplaceExponentials = require('..');
-global.toJsonNoExponential = require('./to-json-no-exponential.js');
+globalThis.jsonReplaceExponentials = require('..');
+globalThis.toJsonNoExponential = require('./to-json-no-exponential.js');
 
 exports.createBenchmarkSuite =
 function createBenchmarkSuite() {
@@ -85,8 +85,8 @@ function main(args, options, exit) {
     { encoding: 'utf8' },
   )
     .then((jsonStr) => {
-      global.jsonStr = jsonStr;
-      global.jsonValue = JSON.parse(jsonStr);
+      globalThis.jsonStr = jsonStr;
+      globalThis.jsonValue = JSON.parse(jsonStr);
       return this.runSuite(this.createBenchmarkSuite(), options);
     })
     .then(
