@@ -46,8 +46,8 @@ function jsonReplaceExponentialsCmd(args, { stdin, stdout, stderr }, callback) {
   }
 
   if (args !== undefined
-      && args !== null
-      && Math.floor(args.length) !== args.length) {
+    && args !== null
+    && Math.floor(args.length) !== args.length) {
     throw new TypeError('args must be Array-like');
   }
 
