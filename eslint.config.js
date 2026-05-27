@@ -41,8 +41,25 @@ module.exports = [
   },
 
   {
+    name: 'benchmark config',
+    basePath: 'benchmark',
+    rules: {
+      // Disable import resolution checking since installing benchmark
+      // dependencies for linting is wasteful, particularly on CI.
+      'import/no-unresolved': 'off',
+
+      // Disable import resolution checking since installing benchmark
+      // dependencies for linting is wasteful, particularly on CI.
+      'n/no-missing-require': 'off',
+    },
+  },
+
+  {
     name: 'bin config',
-    basePath: 'bin',
+    files: [
+      'benchmark/index.js',
+      'bin/*.js',
+    ],
     rules: {
       // Executable scripts should have a shebang
       'n/hashbang': 'off',
