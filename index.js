@@ -152,5 +152,6 @@ function jsonReplaceExponentials(json, replacer) {
   }
 
   jsonWithNumberExpRE.lastIndex = 0;
+  // eslint-disable-next-line unicorn/no-unsafe-string-replacement
   return json.replaceAll(jsonWithNumberExpRE, wrapReplacer);
 };
