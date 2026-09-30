@@ -19,7 +19,7 @@ function getFixed(value) {
     || (value > 1e-7 && value < 1e21)
     || (value < -1e-7 && value > -1e21)) {
     // Built-in string conversion is fixed-point
-    return `${value}`;
+    return String(value);
   }
 
   if (value < 0) {
@@ -32,7 +32,7 @@ function getFixed(value) {
   // - It returns exponential format for x >= 1e21,
   // - It is likely to have excess precision.
   // See https://tc39.es/ecma262/#sec-number.prototype.tofixed and Note 2
-  const s = `${value}`;
+  const s = String(value);
   const ei = s.indexOf('e');
   assert(ei > 0);
 
