@@ -14,8 +14,10 @@ const Benchmark = require('benchmark');
 const readFileP = promisify(readFile);
 
 // https://github.com/import-js/eslint-plugin-import/issues/2844
-// eslint-disable-next-line import-x/extensions,n/no-unpublished-require
+// eslint-disable-next-line @stylistic/max-len
+// eslint-disable-next-line import-x/extensions,n/no-unpublished-require,unicorn/no-global-object-property-assignment
 globalThis.jsonReplaceExponentials = require('..');
+// eslint-disable-next-line unicorn/no-global-object-property-assignment
 globalThis.toJsonNoExponential = require('./to-json-no-exponential.js');
 
 exports.createBenchmarkSuite =
@@ -85,7 +87,9 @@ function main(args, options, exit) {
     { encoding: 'utf8' },
   )
     .then((jsonStr) => {
+      // eslint-disable-next-line unicorn/no-global-object-property-assignment
       globalThis.jsonStr = jsonStr;
+      // eslint-disable-next-line unicorn/no-global-object-property-assignment
       globalThis.jsonValue = JSON.parse(jsonStr);
       return this.runSuite(this.createBenchmarkSuite(), options);
     })
