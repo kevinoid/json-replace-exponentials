@@ -34,6 +34,9 @@ module.exports = [
       // Allow CommonJS modules
       'unicorn/prefer-module': 'off',
 
+      // Don't prefer Math.abs() where performance is critical
+      'unicorn/prefer-math-abs': 'off',
+
       // Don't prefer top-level await
       // Since top-level await is only supported in ECMAScript Modules (ESM)
       'unicorn/prefer-top-level-await': 'off',
