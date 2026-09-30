@@ -99,6 +99,7 @@ function jsonReplaceExponentialsCmd(args, { stdin, stdout, stderr }, callback) {
       stderr.write(`Error reading from stdin: ${err}\n`);
       callback(1);
     })
+    // eslint-disable-next-line unicorn/no-return-array-push
     .on('data', (data) => jsonData.push(data))
     .once('end', () => {
       // TODO: Detect UTF-16/32 using algorithm from RFC 4627:
