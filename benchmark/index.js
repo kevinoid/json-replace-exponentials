@@ -93,11 +93,13 @@ async function main(args, options, exit) {
 
   try {
     await exports.runSuite(exports.createBenchmarkSuite(), options);
-    exit(0);
   } catch (err) {
     options.stderr.write(`${err}\n`);
     exit(1);
+    return;
   }
+
+  exit(0);
 };
 
 if (require.main === module) {
