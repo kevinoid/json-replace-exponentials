@@ -92,7 +92,7 @@ async function main(args, options, exit) {
   globalThis.jsonValue = JSON.parse(jsonStr);
 
   try {
-    await this.runSuite(this.createBenchmarkSuite(), options);
+    await exports.runSuite(exports.createBenchmarkSuite(), options);
     exit(0);
   } catch (err) {
     options.stderr.write(`${err}\n`);
