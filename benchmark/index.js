@@ -61,7 +61,7 @@ exports.runSuite = function runSuite(suite, options) {
 };
 
 exports.main =
-function main(args, options, exit) {
+async function main(args, options, exit) {
   if (!Array.isArray(args)) {
     throw new TypeError('args must be an Array');
   }
@@ -81,25 +81,23 @@ function main(args, options, exit) {
 
   const filename = args[2];
 
-  // eslint-disable-next-line promise/catch-or-return
-  readFileP(
+  const jsonStr = await readFileP(
     filename === '-' ? 0 : filename,
     { encoding: 'utf8' },
-  )
-    .then((jsonStr) => {
-      // eslint-disable-next-line unicorn/no-global-object-property-assignment
-      globalThis.jsonStr = jsonStr;
-      // eslint-disable-next-line unicorn/no-global-object-property-assignment
-      globalThis.jsonValue = JSON.parse(jsonStr);
-      return this.runSuite(this.createBenchmarkSuite(), options);
-    })
-    .then(
-      () => exit(0),
-      (err) => {
-        options.stderr.write(`${err}\n`);
-        exit(1);
-      },
-    );
+  );
+
+  // eslint-disable-next-line unicorn/no-global-object-property-assignment
+  globalThis.jsonStr = jsonStr;
+  // eslint-disable-next-line unicorn/no-global-object-property-assignment
+  globalThis.jsonValue = JSON.parse(jsonStr);
+
+  try {
+    await this.runSuite(this.createBenchmarkSuite(), options);
+    exit(0);
+  } catch (err) {
+    options.stderr.write(`${err}\n`);
+    exit(1);
+  }
 };
 
 if (require.main === module) {
